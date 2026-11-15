@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clic — Know Who</title>
+<meta name="description" content="A recommendation means more when you know who it comes from. Clic is an invite-only community for personal recommendations.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5F2ED;
+    --ink: #1A1A1A;
+    --ink-soft: #3A3A3A;
+    --muted: #7A746C;
+    --line: #E8E2D9;
+    --accent: #C4A484;
+    --white: #FFFFFF;
+    --radius: 20px;
+    --font-sans: 'Inter', system-ui, sans-serif;
+    --font-serif: 'Instrument Serif', Georgia, serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation: none !important; transition: none !important; }
+  }
+  body {
+    font-family: var(--font-sans);
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  img { max-width: 100%; height: auto; display: block; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; }
+  .wrap { width: min(100% - 2rem, 720px); margin-inline: auto; }
+  .wrap-wide { width: min(100% - 2rem, 1080px); margin-inline: auto; }
+
+  /* Nav */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--cream) 88%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid transparent;
+    transition: border-color .2s;
+  }
+  header.scrolled { border-bottom-color: var(--line); }
+  .nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 0; width: min(100% - 2rem, 1080px); margin-inline: auto;
+  }
+  .logo {
+    font-weight: 600; font-size: 1.25rem; letter-spacing: -0.02em;
+  }
+  .nav-cta {
+    font-size: 0.875rem; font-weight: 500;
+    padding: 0.55rem 1.1rem; border-radius: 999px;
+    background: var(--ink); color: var(--cream);
+    transition: opacity .15s;
+  }
+  .nav-cta:hover, .nav-cta:focus-visible { opacity: 0.85; outline: 2px solid var(--ink); outline-offset: 2px; }
+
+  /* Hero */
+  .hero {
+    padding: 3rem 0 4rem;
+  }
+  .hero-grid {
+    display: grid; gap: 2.5rem; align-items: center;
+  }
+  @media (min-width: 800px) {
+    .hero-grid { grid-template-columns: 1.05fr 0.95fr; gap: 3.5rem; }
+    .hero { padding: 4.5rem 0 5.5rem; }
+  }
+  .eyebrow {
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 1rem;
+  }
+  .hero h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(2.4rem, 6.5vw, 3.75rem);
+    font-weight: 400; line-height: 1.08;
+    letter-spacing: -0.02em; margin-bottom: 1.25rem;
+  }
+  .hero h1 em { font-style: italic; color: var(--ink-soft); }
+  .lede {
+    font-size: 1.125rem; color: var(--ink-soft); max-width: 32ch;
+    margin-bottom: 2rem; line-height: 1.55;
+  }
+  .hero-portrait {
+    border-radius: var(--radius); overflow: hidden;
+    aspect-ratio: 3/4; background: var(--line);
+    box-shadow: 0 24px 48px -20px rgba(26,26,26,0.18);
+  }
+  .hero-portrait img { width: 100%; height: 100%; object-fit: cover; }
+  .portrait-caption {
+    margin-top: 0.85rem; font-size: 0.8125rem; color: var(--muted);
+    text-align: center;
+  }
+
+  /* Quote strip */
+  .quote-strip {
+    padding: 3rem 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .quote-strip blockquote {
+    font-family: var(--font-serif);
+    font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+    line-height: 1.25; text-align: center;
+    max-width: 22ch; margin: 0 auto 1rem;
+  }
+  .quote-strip cite {
+    display: block; text-align: center;
+    font-size: 0.875rem; color: var(--muted); font-style: normal;
+  }
+
+  /* Recommendation moment */
+  .rec-section { padding: 4.5rem 0; }
+  .section-label {
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.75rem, 4vw, 2.4rem);
+    line-height: 1.15; margin-bottom: 0.75rem;
+  }
+  .section-body {
+    color: var(--ink-soft); max-width: 40ch; margin-bottom: 2.5rem;
+  }
+  .rec-card {
+    background: var(--white);
+    border-radius: calc(var(--radius) + 4px);
+    overflow: hidden;
+    box-shadow: 0 16px 40px -16px rgba(26,26,26,0.12);
+    display: grid;
+  }
+  @media (min-width: 700px) {
+    .rec-card { grid-template-columns: 1.1fr 1fr; }
+  }
+  .rec-card-visual { aspect-ratio: 4/3; background: var(--line); }
+  @media (min-width: 700px) { .rec-card-visual { aspect-ratio: auto; min-height: 100%; } }
+  .rec-card-visual img { width: 100%; height: 100%; object-fit: cover; }
+  .rec-card-body { padding: 1.75rem 1.5rem; display: flex; flex-direction: column; justify-content: center; }
+  @media (min-width: 700px) { .rec-card-body { padding: 2.25rem; } }
+  .rec-person {
+    display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem;
+  }
+  .rec-avatar {
+    width: 48px; height: 48px; border-radius: 50%; overflow: hidden;
+    flex-shrink: 0; background: var(--line);
+  }
+  .rec-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .rec-name { font-weight: 600; font-size: 0.9375rem; }
+  .rec-meta { font-size: 0.8125rem; color: var(--muted); }
+  .rec-place {
+    font-family: var(--font-serif);
+    font-size: 1.5rem; margin-bottom: 0.35rem;
+  }
+  .rec-note {
+    font-size: 1rem; color: var(--ink-soft); font-style: italic;
+    line-height: 1.5; margin: 1rem 0 1.25rem;
+  }
+  .rec-tag {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    font-size: 0.75rem; font-weight: 500; color: var(--muted);
+    padding: 0.35rem 0.7rem; border: 1px solid var(--line); border-radius: 999px;
+  }
+
+  /* Product moment */
+  .product-moment {
+    padding: 2rem 0 4.5rem;
+  }
+  .product-grid {
+    display: grid; gap: 2rem; align-items: center;
+  }
+  @media (min-width: 800px) {
+    .product-grid { grid-template-columns: 0.9fr 1.1fr; gap: 3rem; }
+  }
+  .phone-frame {
+    max-width: 280px; margin-inline: auto;
+    border-radius: 28px; overflow: hidden;
+    box-shadow: 0 32px 64px -24px rgba(26,26,26,0.25);
+  }
+  .phone-frame img { width: 100%; }
+  .note-label {
+    font-size: 0.8125rem; color: var(--muted); margin-top: 1rem; text-align: center;
+  }
+
+  /* Toggle discovery */
+  .discover { padding: 4rem 0; background: var(--white); }
+  .toggle-row {
+    display: flex; gap: 0.5rem; margin-bottom: 2rem;
+    background: var(--cream); padding: 0.3rem; border-radius: 999px; width: fit-content;
+  }
+  .toggle-btn {
+    padding: 0.55rem 1.25rem; border-radius: 999px;
+    font-size: 0.875rem; font-weight: 500; color: var(--muted);
+    transition: background .15s, color .15s;
+  }
+  .toggle-btn[aria-pressed="true"] {
+    background: var(--ink); color: var(--cream);
+  }
+  .toggle-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .panel { display: none; }
+  .panel.is-active { display: block; }
+  .discover-grid {
+    display: grid; gap: 1.25rem;
+  }
+  @media (min-width: 600px) {
+    .discover-grid { grid-template-columns: 1fr 1fr; }
+  }
+  .mini-card {
+    background: var(--cream); border-radius: var(--radius); overflow: hidden;
+  }
+  .mini-card img { width: 100%; aspect-ratio: 16/11; object-fit: cover; }
+  .mini-card-body { padding: 1.15rem 1.25rem 1.35rem; }
+  .mini-card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.25rem; }
+  .mini-card p { font-size: 0.875rem; color: var(--ink-soft); }
+
+  /* CTA */
+  .cta {
+    padding: 5rem 0;
+    text-align: center;
+  }
+  .cta h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    line-height: 1.15; margin-bottom: 1rem;
+  }
+  .cta p {
+    color: var(--ink-soft); max-width: 36ch; margin: 0 auto 2rem;
+  }
+  .cta-btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 1rem; font-weight: 500;
+    padding: 0.95rem 1.75rem; border-radius: 999px;
+    background: var(--ink); color: var(--cream);
+    transition: opacity .15s, transform .15s;
+  }
+  .cta-btn:hover { opacity: 0.9; }
+  .cta-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  .cta-note {
+    margin-top: 1.25rem; font-size: 0.8125rem; color: var(--muted);
+  }
+
+  footer {
+    padding: 2rem 0 3rem;
+    border-top: 1px solid var(--line);
+    text-align: center;
+    font-size: 0.8125rem; color: var(--muted);
+  }
+  footer .logo { font-weight: 600; color: var(--ink); margin-bottom: 0.5rem; display: block; }
+
+  .disclaimer {
+    font-size: 0.7rem; color: var(--muted); margin-top: 2rem;
+    max-width: 48ch; margin-inline: auto; text-align: center; line-height: 1.4;
+  }
+</style>
+</head>
+<body>
+  <header id="site-header">
+    <div class="nav">
+      <a href="#" class="logo" aria-label="Clic home">Clic</a>
+      <button class="nav-cta" type="button" data-action="invite">Request invite</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap-wide hero-grid">
+        <div>
+          <p class="eyebrow">Concept · Know Who</p>
+          <h1>A recommendation means more when you know <em>who</em> it comes from.</h1>
+          <p class="lede">Clic is an invite-only community for discovering and sharing personal recommendations — for places and things — from people whose taste you trust.</p>
+          <button class="cta-btn" type="button" data-action="invite">Request an invite</button>
+        </div>
+        <div>
+          <figure class="hero-portrait">
+            <img src="assets/portrait-sophie.jpg" alt="Portrait of Sophie, a fictional Clic member" width="683" height="1024">
+          </figure>
+          <p class="portrait-caption">Sophie · recommends the places she actually returns to</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="quote-strip">
+      <div class="wrap">
+        <blockquote>“Does anyone know a good…?”</blockquote>
+        <cite>That question lives in chats and then disappears. Clic keeps the answer — and the person behind it.</cite>
+      </div>
+    </section>
+
+    <section class="rec-section">
+      <div class="wrap">
+        <p class="section-label">A human recommendation</p>
+        <h2 class="section-title">You see the place. You see the person.</h2>
+        <p class="section-body">Not an anonymous star rating. A short note from someone you can picture — why they love it, and when they go.</p>
+
+        <article class="rec-card">
+          <div class="rec-card-visual">
+            <img src="assets/cafe-terrace.jpg" alt="Golden-hour terrace of Café de la Place, a fictional recommended café" width="1024" height="576">
+          </div>
+          <div class="rec-card-body">
+            <div class="rec-person">
+              <div class="rec-avatar">
+                <img src="assets/portrait-sophie.jpg" alt="">
+              </div>
+              <div>
+                <div class="rec-name">Sophie</div>
+                <div class="rec-meta">Recommended · Place</div>
+              </div>
+            </div>
+            <h3 class="rec-place">Café de la Place</h3>
+            <p class="rec-note">“My Tuesday morning ritual — they always remember how I take my coffee.”</p>
+            <span class="rec-tag">Place · Illustrative example</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="product-moment">
+      <div class="wrap-wide product-grid">
+        <div>
+          <p class="section-label">How it feels</p>
+          <h2 class="section-title">The person stays with the recommendation.</h2>
+          <p class="section-body">Open a place or a thing and you meet the recommender first. Their note. Their context. Then the discovery.</p>
+          <p class="section-body" style="margin-bottom:0">Illustrative product composition — fictional members and places.</p>
+        </div>
+        <div>
+          <div class="phone-frame">
+            <img src="assets/ui-place-rec.jpg" alt="Illustrative Clic app screen showing a place recommendation with Sophie’s note" width="576" height="1024">
+          </div>
+          <p class="note-label">Illustrative UI · not a live product screenshot</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="discover">
+      <div class="wrap">
+        <p class="section-label">Discover</p>
+        <h2 class="section-title">Places and things people actually love.</h2>
+        <p class="section-body">Switch between what to go to and what to try — always with a face and a reason.</p>
+
+        <div class="toggle-row" role="group" aria-label="Browse type">
+          <button class="toggle-btn" type="button" aria-pressed="true" data-panel="places">Places</button>
+          <button class="toggle-btn" type="button" aria-pressed="false" data-panel="things">Things</button>
+        </div>
+
+        <div id="panel-places" class="panel is-active" role="tabpanel">
+          <div class="discover-grid">
+            <article class="mini-card">
+              <img src="assets/bookstore.jpg" alt="Sunlit reading corner of a small independent bookstore" width="1024" height="683">
+              <div class="mini-card-body">
+                <h3>Willow Books</h3>
+                <p>Recommended by Alex · “The corner where I disappear for an hour.”</p>
+              </div>
+            </article>
+            <article class="mini-card">
+              <img src="assets/plate-food.jpg" alt="Elegant plate of simply prepared fish with herbs and olive oil" width="1024" height="683">
+              <div class="mini-card-body">
+                <h3>Riverbank Café</h3>
+                <p>Recommended by Sophie · “Quiet terrace, long lunches, no rush.”</p>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div id="panel-things" class="panel" role="tabpanel" hidden>
+          <div class="discover-grid">
+            <article class="mini-card">
+              <img src="assets/leather-journal.jpg" alt="Brown leather journal and fountain pen on linen" width="1024" height="1024">
+              <div class="mini-card-body">
+                <h3>Field Notes Journal</h3>
+                <p>Recommended by Alex · “The one I gift to people I actually like.”</p>
+              </div>
+            </article>
+            <article class="mini-card">
+              <img src="assets/mug-note.jpg" alt="Speckled ceramic mug of coffee beside a notebook and handwritten note" width="1024" height="683">
+              <div class="mini-card-body">
+                <h3>Speckled morning mug</h3>
+                <p>Recommended by Sophie · “Holds heat. Makes the slow start better.”</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="wrap">
+        <h2>Come with a recommendation.<br>Leave with many more.</h2>
+        <p>Clic is invite-only. If someone whose taste you trust is already here, ask them. Or request an invite.</p>
+        <button class="cta-btn" type="button" data-action="invite">Request an invite</button>
+        <p class="cta-note">Prototype action · no waitlist is connected yet</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span class="logo">Clic</span>
+      <p>Know who. Then go.</p>
+      <p class="disclaimer">Campaign concept · Know Who. All members, places and product moments are illustrative fiction for this teaser. Not real testimonials or live screenshots.</p>
+    </div>
+  </footer>
+
+<script>
+  const header = document.getElementById('site-header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 8);
+  }, { passive: true });
+
+  document.querySelectorAll('[data-action="invite"]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      alert('Prototype: Request an invite\n\nThis would open an invite request flow. No backend is connected in this teaser.');
+    });
+  });
+
+  const toggles = document.querySelectorAll('.toggle-btn');
+  toggles.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const panel = btn.dataset.panel;
+      toggles.forEach(b => b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'));
+      document.querySelectorAll('.panel').forEach(p => {
+        const active = p.id === 'panel-' + panel;
+        p.classList.toggle('is-active', active);
+        p.hidden = !active;
+      });
+    });
+  });
+</script>
+</body>
+</html>

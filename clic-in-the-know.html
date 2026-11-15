@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clic — In the Know</title>
+<meta name="description" content="Ask the people who get it. Clic is an invite-only community for personal recommendations of places and things.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5F2ED;
+    --ink: #1A1A1A;
+    --ink-soft: #3A3A3A;
+    --muted: #7A746C;
+    --line: #E8E2D9;
+    --terracotta: #C4785A;
+    --white: #FFFFFF;
+    --radius: 20px;
+    --font-sans: 'Inter', system-ui, sans-serif;
+    --font-serif: 'Instrument Serif', Georgia, serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation: none !important; transition: none !important; }
+  }
+  body {
+    font-family: var(--font-sans);
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  img { max-width: 100%; height: auto; display: block; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; }
+  .wrap { width: min(100% - 2rem, 720px); margin-inline: auto; }
+  .wrap-wide { width: min(100% - 2rem, 1080px); margin-inline: auto; }
+
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--cream) 90%, transparent);
+    backdrop-filter: blur(12px);
+  }
+  .nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 0; width: min(100% - 2rem, 1080px); margin-inline: auto;
+  }
+  .logo { font-weight: 600; font-size: 1.25rem; letter-spacing: -0.02em; }
+  .nav-cta {
+    font-size: 0.875rem; font-weight: 500;
+    padding: 0.55rem 1.1rem; border-radius: 999px;
+    background: var(--ink); color: var(--cream);
+  }
+  .nav-cta:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+  .hero {
+    padding: 3.5rem 0 3rem;
+  }
+  .hero-inner {
+    display: grid; gap: 2.5rem;
+  }
+  @media (min-width: 850px) {
+    .hero-inner { grid-template-columns: 1fr 1.15fr; align-items: center; gap: 3rem; }
+    .hero { padding: 4.5rem 0 4rem; }
+  }
+  .eyebrow {
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 1rem;
+  }
+  .hero h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(2.4rem, 6vw, 3.6rem);
+    font-weight: 400; line-height: 1.08;
+    letter-spacing: -0.02em; margin-bottom: 1.15rem;
+  }
+  .hero h1 span { color: var(--terracotta); font-style: italic; }
+  .lede {
+    font-size: 1.1rem; color: var(--ink-soft); max-width: 34ch;
+    margin-bottom: 1.75rem; line-height: 1.55;
+  }
+  .cta-btn {
+    display: inline-flex;
+    font-size: 0.9375rem; font-weight: 500;
+    padding: 0.9rem 1.6rem; border-radius: 999px;
+    background: var(--ink); color: var(--cream);
+  }
+  .cta-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  .hero-visual {
+    border-radius: var(--radius); overflow: hidden;
+    box-shadow: 0 24px 48px -18px rgba(26,26,26,0.18);
+  }
+  .hero-visual img { width: 100%; aspect-ratio: 16/10; object-fit: cover; }
+
+  .problem {
+    padding: 3rem 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .problem-grid {
+    display: grid; gap: 1.5rem;
+  }
+  @media (min-width: 700px) {
+    .problem-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  }
+  .problem-card {
+    padding: 1.75rem;
+    background: var(--white);
+    border-radius: var(--radius);
+  }
+  .problem-card h3 {
+    font-family: var(--font-serif);
+    font-size: 1.35rem; margin-bottom: 0.5rem;
+  }
+  .problem-card p { color: var(--ink-soft); font-size: 0.95rem; }
+
+  .ask-section {
+    padding: 4.5rem 0;
+  }
+  .section-label {
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.7rem, 4vw, 2.35rem);
+    line-height: 1.15; margin-bottom: 0.75rem;
+  }
+  .section-body {
+    color: var(--ink-soft); max-width: 40ch; margin-bottom: 2rem;
+  }
+  .ask-layout {
+    display: grid; gap: 2.5rem; align-items: start;
+  }
+  @media (min-width: 850px) {
+    .ask-layout { grid-template-columns: 0.95fr 1.05fr; gap: 3rem; }
+  }
+  .phone-frame {
+    max-width: 300px; margin-inline: auto;
+    border-radius: 28px; overflow: hidden;
+    box-shadow: 0 32px 64px -24px rgba(26,26,26,0.22);
+  }
+  .phone-frame img { width: 100%; }
+  .note-label {
+    margin-top: 0.85rem; text-align: center;
+    font-size: 0.75rem; color: var(--muted);
+  }
+
+  /* Interactive ask demo */
+  .ask-demo {
+    background: var(--white);
+    border-radius: calc(var(--radius) + 4px);
+    padding: 1.5rem;
+    box-shadow: 0 12px 36px -16px rgba(26,26,26,0.1);
+  }
+  .ask-prompt {
+    font-family: var(--font-serif);
+    font-size: 1.35rem; line-height: 1.25; margin-bottom: 1.25rem;
+  }
+  .ask-prompt em { color: var(--terracotta); font-style: italic; }
+  .replies { display: grid; gap: 0.85rem; }
+  .reply {
+    display: flex; gap: 0.85rem; align-items: flex-start;
+    padding: 0.9rem; border-radius: 14px; background: var(--cream);
+    cursor: pointer; text-align: left; width: 100%;
+    transition: box-shadow .15s, transform .15s;
+  }
+  .reply:hover, .reply:focus-visible {
+    box-shadow: 0 4px 16px -6px rgba(26,26,26,0.12);
+  }
+  .reply:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .reply.is-open { box-shadow: 0 4px 16px -6px rgba(26,26,26,0.12); }
+  .reply-avatar {
+    width: 40px; height: 40px; border-radius: 50%; overflow: hidden; flex-shrink: 0;
+  }
+  .reply-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .reply-name { font-weight: 600; font-size: 0.875rem; }
+  .reply-text { font-size: 0.875rem; color: var(--ink-soft); margin-top: 0.15rem; }
+  .reply-extra {
+    display: none; margin-top: 0.5rem; font-size: 0.8rem; color: var(--muted);
+  }
+  .reply.is-open .reply-extra { display: block; }
+
+  .network {
+    padding: 3rem 0 4rem;
+    background: var(--white);
+  }
+  .network-visual {
+    border-radius: var(--radius); overflow: hidden; margin-bottom: 2rem;
+  }
+  .network-visual img { width: 100%; max-height: 360px; object-fit: cover; }
+  .network h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(1.6rem, 3.5vw, 2.1rem);
+    text-align: center; max-width: 22ch; margin: 0 auto 0.75rem;
+  }
+  .network p {
+    text-align: center; color: var(--ink-soft);
+    max-width: 42ch; margin: 0 auto;
+  }
+
+  .share-section {
+    padding: 4rem 0;
+  }
+  .share-grid {
+    display: grid; gap: 1.25rem;
+  }
+  @media (min-width: 700px) {
+    .share-grid { grid-template-columns: 1fr 1fr; }
+  }
+  .share-card {
+    background: var(--white); border-radius: var(--radius); overflow: hidden;
+  }
+  .share-card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+  .share-card-body { padding: 1.25rem 1.35rem 1.5rem; }
+  .share-card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.3rem; }
+  .share-card p { font-size: 0.875rem; color: var(--ink-soft); }
+
+  .cta {
+    padding: 4.5rem 0 5rem;
+    text-align: center;
+  }
+  .cta h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    line-height: 1.12; margin-bottom: 1rem;
+  }
+  .cta p {
+    color: var(--ink-soft); max-width: 36ch; margin: 0 auto 2rem;
+  }
+  .cta-note { margin-top: 1.15rem; font-size: 0.8125rem; color: var(--muted); }
+
+  footer {
+    padding: 2rem 0 3rem;
+    border-top: 1px solid var(--line);
+    text-align: center;
+    font-size: 0.8125rem; color: var(--muted);
+  }
+  footer .logo { font-weight: 600; color: var(--ink); display: block; margin-bottom: 0.4rem; }
+  .disclaimer {
+    font-size: 0.7rem; max-width: 48ch; margin: 1.5rem auto 0; line-height: 1.4;
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="nav">
+      <a href="#" class="logo">Clic</a>
+      <button class="nav-cta" type="button" data-action="invite">Request invite</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap-wide hero-inner">
+        <div>
+          <p class="eyebrow">Concept · In the Know</p>
+          <h1>Ask the people who <span>get it</span>.</h1>
+          <p class="lede">Clic is an invite-only community where personal recommendations for places and things stay with the person who made them — and where you can ask when you need one.</p>
+          <button class="cta-btn" type="button" data-action="invite">Request an invite</button>
+        </div>
+        <div class="hero-visual">
+          <img src="assets/friends-cafe.jpg" alt="Two friends sharing a quiet moment over coffee and notes at a café" width="1024" height="576">
+        </div>
+      </div>
+    </section>
+
+    <section class="problem">
+      <div class="wrap problem-grid">
+        <div class="problem-card">
+          <h3>The question vanishes</h3>
+          <p>“Does anyone know a good…?” gets asked in chats, answered once, and lost. The good tip never becomes a place you can return to.</p>
+        </div>
+        <div class="problem-card">
+          <h3>Strangers don’t know you</h3>
+          <p>Anonymous reviews optimize for averages. Clic optimizes for people whose judgment you actually care about.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="ask-section">
+      <div class="wrap-wide ask-layout">
+        <div>
+          <p class="section-label">In the know</p>
+          <h2 class="section-title">Ask the room. Keep the answers.</h2>
+          <p class="section-body">When you need a recommendation, you don’t shout into the void. You ask a community that knows — and every reply still has a face and a reason.</p>
+
+          <div class="ask-demo" aria-label="Illustrative community replies">
+            <p class="ask-prompt">Does anyone know a quiet place for a <em>long lunch</em> near the river?</p>
+            <div class="replies">
+              <button class="reply is-open" type="button">
+                <div class="reply-avatar"><img src="assets/portrait-sophie.jpg" alt=""></div>
+                <div>
+                  <div class="reply-name">Sophie</div>
+                  <div class="reply-text">The hidden terrace at Riverbank Café. Shaded, quiet, perfect to linger.</div>
+                  <div class="reply-extra">Tap to open · illustrative reply · Place</div>
+                </div>
+              </button>
+              <button class="reply" type="button">
+                <div class="reply-avatar"><img src="assets/portrait-alex.jpg" alt=""></div>
+                <div>
+                  <div class="reply-name">Alex</div>
+                  <div class="reply-text">Garden nook behind The Willow Collective. Almost empty midweek.</div>
+                  <div class="reply-extra">Tap to open · illustrative reply · Place</div>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="phone-frame">
+            <img src="assets/ui-intheknow.jpg" alt="Illustrative Clic In the know screen with a question and community replies" width="576" height="1024">
+          </div>
+          <p class="note-label">Illustrative UI · fictional question and members</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="network">
+      <div class="wrap">
+        <div class="network-visual">
+          <img src="assets/network-abstract.jpg" alt="Abstract soft network of connected circles in warm cream and terracotta tones" width="1792" height="1008">
+        </div>
+        <h2>A quiet network of people whose taste you trust.</h2>
+        <p>Invite-only by design. Not for everyone — for the people you would actually ask. Discover their Places and Things. Share your own. Ask when you need the room.</p>
+      </div>
+    </section>
+
+    <section class="share-section">
+      <div class="wrap">
+        <p class="section-label">Share what you love</p>
+        <h2 class="section-title" style="margin-bottom:1.5rem">Recommendations go both ways.</h2>
+        <div class="share-grid">
+          <article class="share-card">
+            <img src="assets/ui-thing-rec.jpg" alt="Illustrative product recommendation card for a leather journal recommended by Alex" width="1024" height="1024">
+            <div class="share-card-body">
+              <h3>Things with a story</h3>
+              <p>Objects people love — with the note that made them worth sharing.</p>
+            </div>
+          </article>
+          <article class="share-card">
+            <img src="assets/ui-place-rec.jpg" alt="Illustrative place recommendation card for Café de la Place" width="576" height="1024">
+            <div class="share-card-body">
+              <h3>Places worth returning to</h3>
+              <p>Not just a pin on a map — a reason from someone you can picture.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="wrap">
+        <h2>Be in the know.<br>Bring someone with you.</h2>
+        <p>Clic is invite-only. If the people whose taste you trust are already here, ask them. Or request an invite of your own.</p>
+        <button class="cta-btn" type="button" data-action="invite">Request an invite</button>
+        <p class="cta-note">Prototype action · no waitlist is connected yet</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span class="logo">Clic</span>
+      <p>Ask better. Keep the answers.</p>
+      <p class="disclaimer">Campaign concept · In the Know. All members, questions and product moments are illustrative fiction for this teaser. Not real testimonials or live screenshots.</p>
+    </div>
+  </footer>
+
+<script>
+  document.querySelectorAll('[data-action="invite"]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      alert('Prototype: Request an invite\n\nThis would open an invite request flow. No backend is connected in this teaser.');
+    });
+  });
+
+  document.querySelectorAll('.reply').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.reply').forEach(r => r.classList.remove('is-open'));
+      btn.classList.add('is-open');
+    });
+  });
+</script>
+</body>
+</html>
